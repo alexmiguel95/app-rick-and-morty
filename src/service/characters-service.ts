@@ -5,9 +5,9 @@ import IPagination from '../models/pagination';
 import charactersApi from '../api/characters-api';
 
 const charactersService = () => {
-    const getAllCharacters = async (): Promise<AxiosResponse<IPagination<ICharacter>>> => {
+    const getAllCharacters = async (page: number): Promise<AxiosResponse<IPagination<ICharacter>>> => {
         try {
-            const result: AxiosResponse<IPagination<ICharacter>> = await charactersApi.getAllCharacters();
+            const result: AxiosResponse<IPagination<ICharacter>> = await charactersApi.getAllCharacters(page);
             if (result.status === HttpStatus.OK && result.data != null) {
                 return Promise.resolve(result);
             }
