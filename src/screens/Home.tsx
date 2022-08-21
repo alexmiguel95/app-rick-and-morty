@@ -78,6 +78,8 @@ const StyledImage = styled.Image`
 
 const StyledView = styled.View`
     justify-content: center;
+    flex: 1;
+    margin-left: 15px;
 `;
 
 const StyledText = styled.Text`
