@@ -5,7 +5,10 @@
 
 Aplicativo construído em React Native que consome a api pública do [Rick and Morty](https://rickandmortyapi.com/documentation/#rest) listando os detalhes de cada personagem.
 
-![](demonstration.gif)
+<p align="center">
+  <img src="/demonstration.gif" width="620">
+</p>
+
 *********************************************************************************************************
 
 &nbsp;
