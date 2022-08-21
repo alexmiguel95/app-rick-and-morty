@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
 import './ReactotronConfig';
@@ -10,19 +10,8 @@ export default function App() {
     return (
         <SafeAreaView>
             <ThemeProvider theme={theme}>
-                <View style={styles.container}>
-                    <Home />
-                </View>
+                <Home />
             </ThemeProvider>
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
