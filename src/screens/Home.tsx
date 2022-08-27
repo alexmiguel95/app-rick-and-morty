@@ -1,48 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import React, { useState } from 'react';
 import { FlatList, Modal, Pressable, View } from 'react-native';
 import styled from 'styled-components/native';
 import CharacterCard from '../components/CharacterCard';
 import ICharacter from '../models/character';
-import charactersService from '../service/characters-service';
+import { AntDesign } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleAddingOrRemovingFavorites } from '../redux/favorite';
+import { RootState } from '../redux/configueStore';
 
 const Home = () => {
-    const [characters, setCharacters] = useState<ICharacter[]>([]);
-    const [totalPages, setTotalPages] = useState<number>(0);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const dispatch = useDispatch();
+    const { favorites } = useSelector((state: RootState) => state);
+
     const [selectedCharacter, setSelectedCharacter] = useState<ICharacter>();
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
-    useEffect(() => {
-        charactersService.getAllCharacters(currentPage).then(response => {
-            setCharacters([...characters, ...response.data.results]);
-            setTotalPages(response.data.info.pages);
-        });
-    }, [currentPage]);
-
-    const handleNextPage = () => {
-        if (currentPage + 1 <= totalPages) {
-            setCurrentPage(currentPage + 1);
+    const INFO_PERSON = gql`
+        query {
+            characters {
+                results {
+                    id
+                    name
+                    gender
+                    image
+                    species
+                }
+            }
         }
-    };
+    `;
+
+    const { loading, data } = useQuery(INFO_PERSON);
 
     return (
         <View>
-            <FlatList
-                style={{ margin: 15 }}
-                data={characters}
-                keyExtractor={item => `character-${item.id}`}
-                renderItem={({ item }) => (
-                    <CharacterCard
-                        characterInformation={item}
-                        onPress={() => {
-                            setSelectedCharacter(item);
-                            setIsShowModal(true);
-                        }}
-                    />
-                )}
-                onEndReached={() => handleNextPage()}
-                onEndReachedThreshold={0.1}
-            />
+            {!loading && (
+                <FlatList
+                    style={{ margin: 15 }}
+                    data={data.characters.results}
+                    keyExtractor={item => `character-${item.id}`}
+                    renderItem={({ item }) => (
+                        <CharacterCard
+                            characterInformation={item}
+                            onPress={() => {
+                                setSelectedCharacter(item);
+                                setIsShowModal(true);
+                            }}
+                        />
+                    )}
+                />
+            )}
 
             <Modal visible={isShowModal} animationType="slide" transparent={true} onRequestClose={() => setIsShowModal(false)}>
                 <Pressable onPressOut={() => setIsShowModal(false)}>
@@ -51,6 +58,15 @@ const Home = () => {
                             <StyledText>{`Name: ${selectedCharacter?.name}`}</StyledText>
                             <StyledText>{`Species: ${selectedCharacter?.species}`}</StyledText>
                             <StyledText>{`Gender: ${selectedCharacter?.gender}`}</StyledText>
+                            <StyledFavoriteContainer>
+                                <Pressable onPress={() => dispatch(handleAddingOrRemovingFavorites(selectedCharacter?.id!))}>
+                                    {favorites.favorites.includes(selectedCharacter?.id!) ? (
+                                        <AntDesign name="star" size={24} color="black" />
+                                    ) : (
+                                        <AntDesign name="staro" size={24} color="black" />
+                                    )}
+                                </Pressable>
+                            </StyledFavoriteContainer>
                         </StyledView>
                         <StyledImage source={{ uri: selectedCharacter?.image }} />
                     </StyledModalContainer>
@@ -85,6 +101,12 @@ const StyledView = styled.View`
 const StyledText = styled.Text`
     font-size: 20px;
     margin-bottom: 5px;
+`;
+
+const StyledFavoriteContainer = styled.View`
+    justify-content: space-evenly;
+    flex-direction: row;
+    margin-top: 50px;
 `;
 
 export default Home;

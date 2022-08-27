@@ -1,12 +1,8 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-const api = () => {
-    const config: AxiosRequestConfig = {
-        baseURL: 'https://rickandmortyapi.com/api',
-        timeout: 60 * 1000,
-    };
+const api = new ApolloClient({
+    uri: 'https://rickandmortyapi.com/graphql',
+    cache: new InMemoryCache(),
+});
 
-    return axios.create(config);
-};
-
-export default api();
+export default api;
