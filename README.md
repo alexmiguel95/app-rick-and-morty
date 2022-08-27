@@ -3,7 +3,7 @@
 ###
 
 
-Aplicativo construído em React Native que consome a api pública do [Rick and Morty](https://rickandmortyapi.com/documentation/#rest) listando os detalhes de cada personagem.
+Aplicativo construído em React Native que consome a api pública do [Rick and Morty GraphQL](https://rickandmortyapi.com/documentation/) listando os detalhes de cada personagem.
 
 <p align="center">
   <img src="/demonstration.gif" width="620">
@@ -19,7 +19,7 @@ Aplicativo construído em React Native que consome a api pública do [Rick and M
 
 ###
 
-https://rickandmortyapi.com/documentation/#rest
+https://rickandmortyapi.com/documentation/
 
 ###
 
@@ -33,13 +33,17 @@ https://rickandmortyapi.com/documentation/#rest
 *  Expo
 *  Axios
 *  Styled Components
+* Apollo Client
+* Redux Toolkit
 ###
 &nbsp;
 <h2 align="left">REQUISITOS</h2>
-Criar um aplicativo utilizando React Native com Typescript onde possamos:
+Criar um aplicativo utilizando React Native, Apollo Client, Redux Toolkit com Typescript onde possamos:
 
 * Listar todos os personagens do desenho Rick and Morty mostrando a foto e nome de cada personagem
+* Deve ser possível favoritar personagens
 * Ao clicar em um dos itens da lista, deve mostrar um modal com mais detalhes do personagem
+
 
 &nbsp;
 
@@ -69,7 +73,7 @@ $ yarn
 
 2 - No computador acesse a pasta do projeto pelo terminal, `cd rick-and-morty`, e digite `npx expo start`, ele deve gerar um QR code no terminal.
 
-3 - Com o dispositivo físico conectado na mesma rede que o computador, abra o aplicativo **Expo Go** e escaneie o QR code. O aplicativo será instalado no celular,
+3 - Com o dispositivo físico conectado na mesma rede que o computador, abra o aplicativo **Expo Go** e escaneie o QR code. O aplicativo será carregado no celular
 &nbsp;
 &nbsp;
 
@@ -93,6 +97,3 @@ $ yarn
 ###
 
 &nbsp;
-## Pontos de melhoria
-
-- [x] Melhorar a performance da listagem de personagens adicionando infinite scroll na listagem para que não puxe todos os personagens de um só vez
